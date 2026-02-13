@@ -98,8 +98,8 @@ for (let i = 0; i < 12; i++) {
 }
 
 /* ===== MOVIMIENTO ===== */
-let posX=-1500;
-let posY=-1500;
+let posX=-2000;
+let posY=-2000;
 let startX,startY;
 let dragging=false;
 let scale=1;
@@ -140,11 +140,17 @@ window.addEventListener("mouseup",()=>dragging=false);
 /* ===== ZOOM MOUSE ===== */
 window.addEventListener("wheel",(e)=>{
   e.preventDefault();
+
+  // zoom suave
   scale += e.deltaY * -0.001;
 
-  scale=Math.min(Math.max(0.25,scale),2.5);
+  // limites reales
+  scale = Math.min(Math.max(0.1, scale), 2.5);
+
   update();
 });
+
+
 
 /* ===== DISTANCIA DEDOS ===== */
 function getDistance(t){
@@ -179,7 +185,7 @@ window.addEventListener("touchmove",(e)=>{
     let dist=getDistance(e.touches);
     if(lastDistance){
       scale+=(dist-lastDistance)*0.002;
-      scale=Math.min(Math.max(0.6,scale),1.8);
+      scale=Math.min(Math.max(0.1,scale),2.5);
       update();
     }
     lastDistance=dist;
@@ -194,4 +200,5 @@ window.addEventListener("touchend",()=>{
 </script>
 </body>
 </html>
+
 
