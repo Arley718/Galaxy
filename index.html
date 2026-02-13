@@ -18,7 +18,10 @@
         const universe = document.getElementById("universe");
 
         /* ===== ESTRELLAS ===== */
-        for (let i = 0; i < 500; i++) {
+        const isMobile = window.innerWidth < 768;
+        const STAR_COUNT = isMobile ? 150 : 400;
+
+        for (let i = 0; i < STAR_COUNT; i++) {
             let star = document.createElement("div");
             star.className = "star";
 
@@ -216,5 +219,6 @@
 
     </script>
 </body>
+
 
 </html>
