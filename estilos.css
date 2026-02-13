@@ -1,7 +1,12 @@
+html{
+  overscroll-behavior: none;
+}
 body {
   margin: 0;
   overflow: hidden;
   background: black;
+  overscroll-behavior: none;
+  touch-action: none;
 }
 
 #viewport {
@@ -66,6 +71,7 @@ body {
   background: radial-gradient(circle, #fff6b0, #ffae00, #ff4d00);
   box-shadow: 0 0 80px #ffae00, 0 0 160px #ff4d00;
 }
+
 
 
 
