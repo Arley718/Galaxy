@@ -113,6 +113,11 @@ function update(){
     star.style.transform=`scale(${scale*z})`;
     star.style.opacity=Math.min(1,0.4+scale*0.3);
   });
+  if (scale <= 0.35) {
+  posX = -1500;
+  posY = -1500;
+}
+
 }
 update();
 
@@ -135,8 +140,9 @@ window.addEventListener("mouseup",()=>dragging=false);
 /* ===== ZOOM MOUSE ===== */
 window.addEventListener("wheel",(e)=>{
   e.preventDefault();
-  scale+=e.deltaY<0?0.1:-0.1;
-  scale=Math.min(Math.max(0.6,scale),1.8);
+  scale += e.deltaY * -0.001;
+
+  scale=Math.min(Math.max(0.25,scale),2.5);
   update();
 });
 
@@ -188,3 +194,4 @@ window.addEventListener("touchend",()=>{
 </script>
 </body>
 </html>
+
