@@ -1,0 +1,67 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  background: black;
+}
+
+#viewport {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  touch-action: none;
+
+}
+
+#universe {
+  width: 4000px;
+  height: 4000px;
+  position: absolute;
+  background: radial-gradient(circle, #ff00aa22, #000 70%);
+}
+
+/* Estrellas */
+.star {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 6px white;
+  transition: transform 0.2s linear, opacity 0.2s linear;
+  animation: blink 1.5s infinite alternate;
+}
+
+@keyframes blink {
+  from { opacity: 0.2; }
+  to { opacity: 1; }
+}
+
+
+.planet {
+  position: absolute;
+  text-align: center;
+  color: pink;
+  font-size: 14px;
+  text-shadow: 0 0 6px hotpink;
+}
+
+.planet .circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-bottom: 6px;
+  box-shadow: 0 0 15px rgba(255,255,255,0.6);
+}
+
+.sun {
+  position: absolute;
+  top: 1900px;
+  left: 1900px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff6b0, #ffae00, #ff4d00);
+  box-shadow: 0 0 80px #ffae00, 0 0 160px #ff4d00;
+}
+

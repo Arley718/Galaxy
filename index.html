@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Galaxia San Valentín</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body>
+    <div id="viewport">
+        <div id="universe">
+
+        </div>
+    </div>
+
+    <script>
+        const universe = document.getElementById("universe");
+
+        /* ===== ESTRELLAS ===== */
+        for (let i = 0; i < 500; i++) {
+            let star = document.createElement("div");
+            star.className = "star";
+
+            let z = Math.random() * 3 + 1; // profundidad
+
+            star.dataset.z = z;
+
+            star.style.top = Math.random() * 4000 + "px";
+            star.style.left = Math.random() * 4000 + "px";
+
+            let size = Math.random() * 2 + 1;
+            star.style.width = size + "px";
+            star.style.height = size + "px";
+
+            universe.appendChild(star);
+        }
+
+        /* ===================== */
+        /* ===== SOL CENTRAL ===== */
+        let sun = document.createElement("div");
+        sun.className = "sun";
+        sun.style.top = "1900px";
+        sun.style.left = "1900px";
+        universe.appendChild(sun);
+        /* ======================= */
+
+        /* ===== PLANETAS ORBITA CORAZON AMPLIO REAL ===== */
+
+        const messages = [
+            "Eres mi universo 💖", "Contigo todo brilla ✨", "Mi estrella favorita 🌟",
+            "Siempre tú 💕", "Amor infinito ♾️", "Mi lugar seguro 🫶",
+            "Eres magia 🪄", "Mi paz 🌸", "Mi destino 💫",
+            "Mi alegría 😍", "Siempre juntos 🤍", "Mi galaxia 🌌",
+            "Mi inspiración 🔥", "Mi sueño 🌙"
+        ];
+
+        function randomColor() {
+            const colors = [
+                "linear-gradient(45deg, #ff4da6, #ff99cc)",
+                "linear-gradient(45deg, #a64dff, #d9b3ff)",
+                "linear-gradient(45deg, #4dd2ff, #b3ecff)",
+                "linear-gradient(45deg, #ff944d, #ffd1b3)",
+                "linear-gradient(45deg, #66ff99, #ccffe6)"
+            ];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        const centerX = 2000;
+        const centerY = 2000;
+        const heartSize = 90; // AQUI ESTA LA CLAVE
+
+        for (let i = 0; i < 12; i++) {
+
+            // separación real + pequeño desfase
+            let t = (i / 12) * Math.PI * 2;
+
+            let x = 16 * Math.pow(Math.sin(t), 3);
+            let y =
+                13 * Math.cos(t) -
+                5 * Math.cos(2 * t) -
+                2 * Math.cos(3 * t) -
+                Math.cos(4 * t);
+
+
+            x = centerX + x * heartSize;
+            y = centerY - y * heartSize;
+
+            let planet = document.createElement("div");
+            planet.className = "planet";
+            planet.style.top = y + "px";
+            planet.style.left = x + "px";
+
+            let circle = document.createElement("div");
+            circle.className = "circle";
+            circle.style.background = randomColor();
+
+            // MAS PEQUEÑOS
+            let size = 35 + Math.random() * 10;
+            circle.style.width = size + "px";
+            circle.style.height = size + "px";
+
+            let text = document.createElement("span");
+            text.innerText = messages[i];
+
+            planet.appendChild(circle);
+            planet.appendChild(text);
+            universe.appendChild(planet);
+        }
+
+        /* ========================================== */
+
+        /* ===== MOVIMIENTO ===== */
+        let posX = -1500;
+        let posY = -1500;
+        let startX, startY;
+        let dragging = false;
+        let scale = 1;
+
+
+        function update() {
+            universe.style.transform =
+                `translate(${posX}px, ${posY}px) scale(${scale})`;
+
+            // EFECTO PROFUNDIDAD
+            document.querySelectorAll(".star").forEach(star => {
+                let z = star.dataset.z;
+                let starScale = scale * z;
+
+                star.style.transform = `scale(${starScale})`;
+                star.style.opacity = Math.min(1, 0.4 + scale * 0.3);
+            });
+        }
+
+
+        update();
+
+        function start(e) {
+            dragging = true;
+            startX = (e.touches ? e.touches[0].clientX : e.clientX);
+            startY = (e.touches ? e.touches[0].clientY : e.clientY);
+        }
+
+        function move(e) {
+            if (!dragging) return;
+
+            const x = (e.touches ? e.touches[0].clientX : e.clientX);
+            const y = (e.touches ? e.touches[0].clientY : e.clientY);
+
+            posX += x - startX;
+            posY += y - startY;
+
+            startX = x;
+            startY = y;
+
+            update();
+        }
+
+        function end() {
+            dragging = false;
+        }
+
+        window.addEventListener("mousedown", start);
+        window.addEventListener("mousemove", move);
+        window.addEventListener("mouseup", end);
+
+        window.addEventListener("touchstart", start);
+        window.addEventListener("touchmove", move);
+        window.addEventListener("touchend", end);
+        /* ===================== */
+        let lastDistance = null;
+
+        function getDistance(touches) {
+            let dx = touches[0].clientX - touches[1].clientX;
+            let dy = touches[0].clientY - touches[1].clientY;
+            return Math.sqrt(dx * dx + dy * dy);
+        }
+
+        window.addEventListener("touchmove", (e) => {
+            if (e.touches.length === 2) {
+                e.preventDefault();
+
+                let distance = getDistance(e.touches);
+
+                if (lastDistance) {
+                    if (distance > lastDistance) {
+                        scale += 0.02;
+                    } else {
+                        scale -= 0.02;
+                    }
+
+                    scale = Math.min(Math.max(0.5, scale), 2);
+                    update();
+                }
+
+                lastDistance = distance;
+            }
+        });
+
+        window.addEventListener("touchend", () => {
+            lastDistance = null;
+        });
+
+        window.addEventListener("wheel", (e) => {
+            e.preventDefault();
+
+            if (e.deltaY < 0) {
+                scale += 0.1;
+            } else {
+                scale -= 0.1;
+            }
+
+            scale = Math.min(Math.max(0.2, scale), 3);
+            update();
+        });
+
+    </script>
+</body>
+
+</html>
