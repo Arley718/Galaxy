@@ -17,6 +17,8 @@ body {
   width: 4000px;
   height: 4000px;
   position: absolute;
+  will-change: transform;
+  transform: translateZ(0);
   background: radial-gradient(circle, #ff00aa22, #000 70%);
 }
 
@@ -64,4 +66,5 @@ body {
   background: radial-gradient(circle, #fff6b0, #ffae00, #ff4d00);
   box-shadow: 0 0 80px #ffae00, 0 0 160px #ff4d00;
 }
+
 
