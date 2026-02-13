@@ -105,7 +105,17 @@ let dragging=false;
 let scale=1;
 let lastDistance=null;
 
+/* LIMITADOR SUAVE */
+function clamp(val, min, max){
+  return Math.max(min, Math.min(max, val));
+}
+
 function update(){
+
+  /* LIMITES DE MOVIMIENTO */
+  posX = clamp(posX, -3500, 800);
+  posY = clamp(posY, -3500, 800);
+
   universe.style.transform=`translate(${posX}px,${posY}px) scale(${scale})`;
 
   document.querySelectorAll(".star").forEach(star=>{
@@ -113,8 +123,6 @@ function update(){
     star.style.transform=`scale(${scale*z})`;
     star.style.opacity=Math.min(1,0.4+scale*0.3);
   });
-  
-
 }
 update();
 
@@ -138,16 +146,11 @@ window.addEventListener("mouseup",()=>dragging=false);
 window.addEventListener("wheel",(e)=>{
   e.preventDefault();
 
-  // zoom suave
   scale += e.deltaY * -0.001;
-
-  // limites reales
   scale = Math.min(Math.max(0.1, scale), 2.5);
 
   update();
 });
-
-
 
 /* ===== DISTANCIA DEDOS ===== */
 function getDistance(t){
@@ -197,7 +200,3 @@ window.addEventListener("touchend",()=>{
 </script>
 </body>
 </html>
-
-
-
-
