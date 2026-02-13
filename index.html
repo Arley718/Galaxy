@@ -218,10 +218,27 @@
             update();
         });
 
+        // BLOQUEAR SCROLL EN MOVIL
+    document.addEventListener("touchmove", function(e) {
+      e.preventDefault();
+        }, { passive: false });
+
+    document.addEventListener("gesturestart", function (e) {
+  e.preventDefault();
+});
+document.addEventListener("gesturechange", function (e) {
+  e.preventDefault();
+});
+document.addEventListener("gestureend", function (e) {
+  e.preventDefault();
+});
+
+
     </script>
 </body>
 
 
 </html>
+
 
 
