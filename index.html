@@ -113,10 +113,7 @@ function update(){
     star.style.transform=`scale(${scale*z})`;
     star.style.opacity=Math.min(1,0.4+scale*0.3);
   });
-  if (scale <= 0.35) {
-  posX = -1500;
-  posY = -1500;
-}
+  
 
 }
 update();
@@ -200,6 +197,7 @@ window.addEventListener("touchend",()=>{
 </script>
 </body>
 </html>
+
 
 
 
